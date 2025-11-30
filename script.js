@@ -1,9 +1,10 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:3000/weather";
+
 let editId = null;
 
 // Carregar todos
 async function loadAll() {
-  const res = await fetch(`${API_URL}/weather`);
+  const res = await fetch(API_URL);
   const data = await res.json();
 
   const tbody = document.querySelector("#resultsTable tbody");
@@ -34,14 +35,16 @@ async function save() {
   if (!city || isNaN(temp)) return alert("Cidade e temperatura obrigatórios!");
 
   if (editId) {
-    await fetch(`${API_URL}/weather/${editId}`, {
+    await fetch(`${API_URL}/${editId}`, {   // <-- CORREÇÃO
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ city, temperature_c: temp })
     });
+
     editId = null;
+
   } else {
-    await fetch(`${API_URL}/weather`, {
+    await fetch(API_URL, {                 // <-- CORREÇÃO
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ city, temperature_c: temp })
@@ -63,7 +66,7 @@ function edit(id, city, temp) {
 async function removeItem(id) {
   if (!confirm("Deseja excluir este registro?")) return;
 
-  await fetch(`${API_URL}/weather/${id}`, { method: "DELETE" });
+  await fetch(`${API_URL}/${id}`, { method: "DELETE" });  // <-- CORREÇÃO
 
   loadAll();
 }
