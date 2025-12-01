@@ -24,6 +24,10 @@ async function loadAll() {
       </td>
     `;
 
+    // minimal change: add data-label attributes so the CSS can show field labels on small screens
+    const labels = ['ID', 'Cidade', 'Temp.', 'Data', 'Ações'];
+    Array.from(tr.querySelectorAll('td')).forEach((td, i) => td.setAttribute('data-label', labels[i] || ''));
+
     tbody.appendChild(tr);
   });
 }
